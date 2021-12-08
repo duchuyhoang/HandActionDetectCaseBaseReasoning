@@ -23,9 +23,14 @@ class DBConnector {
     handleConnect() {
         // if (this.connection) return;
         return new Promise((resolve, reject) => {
+            var _a;
+            console.log((_a = DBConnector.connection) === null || _a === void 0 ? void 0 : _a.escapeId);
+            if (DBConnector.connection)
+                resolve(DBConnector.connection);
             this.pool.getConnection((err, connection) => {
                 if (DBConnector.retryTime > 3) {
-                    reject("Db connect failed");
+                    // connection.end();
+                    reject("Db connect failed xxxx");
                     return;
                 }
                 if (err) {
@@ -35,7 +40,7 @@ class DBConnector {
                     this.handleConnect();
                 }
                 else {
-                    // DBConnector.connection = connection;
+                    DBConnector.connection = connection;
                     DBConnector.retryTime = 0;
                     resolve(connection);
                 }
@@ -50,11 +55,11 @@ class DBConnector {
     }
 }
 exports.DBConnector = DBConnector;
-//   protected connection: Connection;
 DBConnector.retryTime = 0;
 DBConnector.poolConnectionConfig = {
     host: "171.241.46.90",
     // host:"localhost",
+    connectionLimit: 1,
     user: "root",
     password: "huyhoang10032000@gmail.com",
     database: "hand_action_detect",

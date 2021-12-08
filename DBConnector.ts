@@ -2,12 +2,13 @@ import mysql, { Pool, Connection } from "mysql";
 
 export class DBConnector {
   protected pool: Pool;
-  //   protected connection: Connection;
+  protected static connection: Connection | undefined;
   protected static retryTime: number = 0;
 
   static poolConnectionConfig = {
     host: "171.241.46.90",
     // host:"localhost",
+    connectionLimit: 1,
     user: "root",
     password: "huyhoang10032000@gmail.com",
     database: "hand_action_detect",
@@ -34,10 +35,13 @@ export class DBConnector {
   public handleConnect() {
     // if (this.connection) return;
     return new Promise<Connection>((resolve, reject) => {
+      console.log(DBConnector.connection?.escapeId);
+      if (DBConnector.connection) resolve(DBConnector.connection);
       this.pool.getConnection(
         (err: mysql.MysqlError, connection: Connection) => {
           if (DBConnector.retryTime > 3) {
-            reject("Db connect failed");
+            // connection.end();
+            reject("Db connect failed xxxx");
             return;
           }
           if (err) {
@@ -48,7 +52,7 @@ export class DBConnector {
             });
             this.handleConnect();
           } else {
-            // DBConnector.connection = connection;
+            DBConnector.connection = connection;
             DBConnector.retryTime = 0;
             resolve(connection);
           }
