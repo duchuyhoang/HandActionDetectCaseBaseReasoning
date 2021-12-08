@@ -14,9 +14,10 @@ import { handDetectRouter } from "./Routers/handDetectRouter";
 import { HttpError } from "./Models/HttpError";
 const app: Express = express();
 // "http://localhost:3000",
-app.use(cors({
-  origin:["http://192.168.1.237:3000/"]
-}));
+// {
+//   origin:["http://192.168.1.237:3000/"]
+// }
+app.use(cors());
 
 // const server: Server = http.createServer(app);
 app.use(bodyParser.urlencoded({ extended: true }));

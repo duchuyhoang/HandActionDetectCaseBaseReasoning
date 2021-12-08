@@ -21,9 +21,10 @@ const handDetectRouter_1 = require("./Routers/handDetectRouter");
 const HttpError_1 = require("./Models/HttpError");
 const app = (0, express_1.default)();
 // "http://localhost:3000",
-app.use((0, cors_1.default)({
-    origin: ["http://192.168.1.237:3000/"]
-}));
+// {
+//   origin:["http://192.168.1.237:3000/"]
+// }
+app.use((0, cors_1.default)());
 // const server: Server = http.createServer(app);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/handDetect", handDetectRouter_1.handDetectRouter);
