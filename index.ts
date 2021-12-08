@@ -15,7 +15,7 @@ import { HttpError } from "./Models/HttpError";
 const app: Express = express();
 
 app.use(cors({
-  origin:"http://localhost:3000"
+  origin:["http://localhost:3000","http://192.168.1.237:3000/"]
 }));
 
 // const server: Server = http.createServer(app);
