@@ -7,11 +7,17 @@ import http, { Server, IncomingHttpHeaders } from "http";
 require("dotenv").config();
 import { DEL_FLAG } from "./shared/constants";
 import { HandDetectionController } from "./Controller/HandDetectionController";
+import cors from "cors";
 
 import { expertiseDataRouter } from "./Routers/expertiseDataRouter";
 import { handDetectRouter } from "./Routers/handDetectRouter";
 import { HttpError } from "./Models/HttpError";
 const app: Express = express();
+
+app.use(cors({
+  origin:"http://localhost:3000"
+}));
+
 // const server: Server = http.createServer(app);
 app.use(bodyParser.urlencoded({ extended: true }));
 
