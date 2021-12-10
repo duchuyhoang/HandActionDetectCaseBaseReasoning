@@ -40,32 +40,33 @@ class HandDetectionController {
                     let _case = listCase[index];
                     let sumWeightedValue = (0, functions_1.sumEnum)(constants_1.WeightNumber);
                     let computedValue = (constants_1.WeightNumber.HAND_SHAPE *
-                        (((_a = _case.get_handShape()) === null || _a === void 0 ? void 0 : _a.getIdHandShape().toString()) === handShape
+                        (((_a = _case.get_handShape()) === null || _a === void 0 ? void 0 : _a.getIdHandShape().toString()) ===
+                            handShape.toString()
                             ? 1
                             : 0) +
                         constants_1.WeightNumber.DIRECTION_OF_PALMS_AND_FINGER *
                             (((_b = _case
-                                .get_directionOfPalmsAndFinger()) === null || _b === void 0 ? void 0 : _b.getIdDirectionOfPalmsAndFinger().toString()) === directionOfPalmAndFinger
+                                .get_directionOfPalmsAndFinger()) === null || _b === void 0 ? void 0 : _b.getIdDirectionOfPalmsAndFinger().toString()) === directionOfPalmAndFinger.toString()
                                 ? 1
                                 : 0) +
                         constants_1.WeightNumber.FINGER_OPENING *
                             (((_c = _case.get_fingerOpening()) === null || _c === void 0 ? void 0 : _c.getIdFingerOpening().toString()) ===
-                                fingerOpening
+                                fingerOpening.toString()
                                 ? 1
                                 : 0) +
                         constants_1.WeightNumber.FINGER_SHAPE *
                             (((_d = _case.get_fingerShape()) === null || _d === void 0 ? void 0 : _d.getIdFingerShape().toString()) ===
-                                fingerShape
+                                fingerShape.toString()
                                 ? 1
                                 : 0) +
                         constants_1.WeightNumber.HAND_MOVEMENT *
                             (((_e = _case.get_handMovement()) === null || _e === void 0 ? void 0 : _e.getIdHandMovement().toString()) ===
-                                handMovement
+                                handMovement.toString()
                                 ? 1
                                 : 0)) /
                         sumWeightedValue;
                     arrValue.push(computedValue);
-                    if (computedValue > maxCase.weightedValue)
+                    if (computedValue > maxCase.weightedValue || computedValue === 1)
                         maxCase = {
                             weightedValue: computedValue,
                             case: listCase[index],
@@ -73,6 +74,7 @@ class HandDetectionController {
                     if (computedValue === 1)
                         break;
                 }
+                console.log(arrValue);
                 if (maxCase.weightedValue !== 1 && maxCase.case) {
                     const result = yield this.caseDao.insertNewCase(new Case_1.Case("", maxCase.case.getCaseNameResult(), new DirectionOfPalmsAndFinger_1.DirectionOfPalmsAndFinger(directionOfPalmAndFinger, "", constants_1.DEL_FLAG.VALID), new FingerOpening_1.FingerOpening(fingerOpening, "", constants_1.DEL_FLAG.VALID), new FingerShape_1.FingerShape(fingerShape, "", constants_1.DEL_FLAG.VALID), new HandMovement_1.HandMovement(handMovement, "", constants_1.DEL_FLAG.VALID), new HandShape_1.HandShape(handShape, "", constants_1.DEL_FLAG.VALID), constants_1.DEL_FLAG.VALID));
                     const newCase = yield this.caseDao.getCaseById(result.insertId);

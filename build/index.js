@@ -19,6 +19,7 @@ const cors_1 = __importDefault(require("cors"));
 const expertiseDataRouter_1 = require("./Routers/expertiseDataRouter");
 const handDetectRouter_1 = require("./Routers/handDetectRouter");
 const HttpError_1 = require("./Models/HttpError");
+const caseRouter_1 = require("./Routers/caseRouter");
 const app = (0, express_1.default)();
 // "http://localhost:3000",
 // {
@@ -27,8 +28,10 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 // const server: Server = http.createServer(app);
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use("/handDetect", handDetectRouter_1.handDetectRouter);
 app.use("/expertiseData", expertiseDataRouter_1.expertiseDataRouter);
+app.use("/case", caseRouter_1.caseRouter);
 app.use((err, req, res, next) => {
     if (err instanceof HttpError_1.HttpError) {
         res.status(err.status | 401).json({

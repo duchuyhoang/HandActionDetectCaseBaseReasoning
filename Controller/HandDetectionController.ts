@@ -9,8 +9,7 @@ import { DirectionOfPalmsAndFinger } from "../Models/DirectionOfPalmsAndFinger";
 import { FingerOpening } from "../Models/FingerOpening";
 import { FingerShape } from "../Models/FingerShape";
 import { HandMovement } from "../Models/HandMovement";
-import { OkPacket } from "mysql";
-import { log } from "console";
+import { OkPacket } from "mysql"
 interface ISelectedCase {
   weightedValue: number;
   case: Maybe<Case>;
@@ -47,36 +46,37 @@ export class HandDetectionController {
         let sumWeightedValue = sumEnum(WeightNumber);
         let computedValue =
           (WeightNumber.HAND_SHAPE *
-            (_case.get_handShape()?.getIdHandShape().toString() === handShape
+            (_case.get_handShape()?.getIdHandShape().toString() ===
+            handShape.toString()
               ? 1
               : 0) +
             WeightNumber.DIRECTION_OF_PALMS_AND_FINGER *
               (_case
                 .get_directionOfPalmsAndFinger()
                 ?.getIdDirectionOfPalmsAndFinger()
-                .toString() === directionOfPalmAndFinger
+                .toString() === directionOfPalmAndFinger.toString()
                 ? 1
                 : 0) +
             WeightNumber.FINGER_OPENING *
               (_case.get_fingerOpening()?.getIdFingerOpening().toString() ===
-              fingerOpening
+              fingerOpening.toString()
                 ? 1
                 : 0) +
             WeightNumber.FINGER_SHAPE *
               (_case.get_fingerShape()?.getIdFingerShape().toString() ===
-              fingerShape
+              fingerShape.toString()
                 ? 1
                 : 0) +
             WeightNumber.HAND_MOVEMENT *
               (_case.get_handMovement()?.getIdHandMovement().toString() ===
-              handMovement
+              handMovement.toString()
                 ? 1
                 : 0)) /
           sumWeightedValue;
 
         arrValue.push(computedValue);
 
-        if (computedValue > maxCase.weightedValue)
+        if (computedValue > maxCase.weightedValue || computedValue === 1)
           maxCase = {
             weightedValue: computedValue,
             case: listCase[index],
@@ -84,6 +84,8 @@ export class HandDetectionController {
 
         if (computedValue === 1) break;
       }
+
+      console.log(arrValue);
 
       if (maxCase.weightedValue !== 1 && maxCase.case) {
         const result: OkPacket = await this.caseDao.insertNewCase(
@@ -118,7 +120,7 @@ export class HandDetectionController {
         type: 0,
       });
     } catch (e) {
-      console.log(e);      
+      console.log(e);
       throwHttpError("Something wrong", 400, next);
     }
   }

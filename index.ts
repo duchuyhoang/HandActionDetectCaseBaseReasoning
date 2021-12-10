@@ -12,6 +12,7 @@ import cors from "cors";
 import { expertiseDataRouter } from "./Routers/expertiseDataRouter";
 import { handDetectRouter } from "./Routers/handDetectRouter";
 import { HttpError } from "./Models/HttpError";
+import { caseRouter } from "./Routers/caseRouter";
 const app: Express = express();
 // "http://localhost:3000",
 // {
@@ -21,9 +22,11 @@ app.use(cors());
 
 // const server: Server = http.createServer(app);
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use("/handDetect", handDetectRouter);
 app.use("/expertiseData",expertiseDataRouter);
+app.use("/case",caseRouter)
 app.use(
   (err: Error | HttpError, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof HttpError) {
