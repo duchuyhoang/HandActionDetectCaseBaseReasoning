@@ -57,7 +57,7 @@ class DBConnector {
 exports.DBConnector = DBConnector;
 DBConnector.retryTime = 0;
 DBConnector.poolConnectionConfig = {
-    host: "171.241.13.232",
+    host: "171.241.79.35",
     // host:"localhost",
     connectionLimit: 1,
     user: "root",

@@ -6,7 +6,7 @@ export class DBConnector {
   protected static retryTime: number = 0;
 
   static poolConnectionConfig = {
-    host: "171.241.13.232",
+    host: "171.241.79.35",
     // host:"localhost",
     connectionLimit: 1,
     user: "root",
