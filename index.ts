@@ -13,6 +13,8 @@ import { expertiseDataRouter } from "./Routers/expertiseDataRouter";
 import { handDetectRouter } from "./Routers/handDetectRouter";
 import { HttpError } from "./Models/HttpError";
 import { caseRouter } from "./Routers/caseRouter";
+import { DBConnector } from "./DBConnector";
+
 const app: Express = express();
 // "http://localhost:3000",
 // {
@@ -25,8 +27,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use("/handDetect", handDetectRouter);
-app.use("/expertiseData",expertiseDataRouter);
-app.use("/case",caseRouter)
+app.use("/expertiseData", expertiseDataRouter);
+app.use("/case", caseRouter);
 app.use(
   (err: Error | HttpError, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof HttpError) {
@@ -42,6 +44,8 @@ app.use(
 );
 
 app.listen(process.env.PORT || 3001, async () => {
+  const connection = new DBConnector();
+  await connection.handleConnect();
   console.log(`Server is listening on port ${process.env.PORT || 3001}`);
 
   // const dao: DirectionOfPalmsAndFingerDao = new DirectionOfPalmsAndFingerDao();

@@ -41,6 +41,7 @@ export class HandDetectionController {
         case: null,
       };
 
+// Loop through all case that were retrieved from server and compare weighted value to max case
       for (let index = 0; index < listCase.length; index++) {
         let _case = listCase[index];
         let sumWeightedValue = sumEnum(WeightNumber);
@@ -76,6 +77,7 @@ export class HandDetectionController {
 
         arrValue.push(computedValue);
 
+
         if (computedValue > maxCase.weightedValue || computedValue === 1)
           maxCase = {
             weightedValue: computedValue,
@@ -85,8 +87,7 @@ export class HandDetectionController {
         if (computedValue === 1) break;
       }
 
-      console.log(arrValue);
-
+      // insert a new case to server
       if (maxCase.weightedValue !== 1 && maxCase.case) {
         const result: OkPacket = await this.caseDao.insertNewCase(
           new Case(

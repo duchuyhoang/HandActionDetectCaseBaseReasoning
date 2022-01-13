@@ -36,6 +36,7 @@ class HandDetectionController {
                     weightedValue: 0,
                     case: null,
                 };
+                // Loop through all case that were retrieved from server and compare weighted value to max case
                 for (let index = 0; index < listCase.length; index++) {
                     let _case = listCase[index];
                     let sumWeightedValue = (0, functions_1.sumEnum)(constants_1.WeightNumber);
@@ -74,7 +75,7 @@ class HandDetectionController {
                     if (computedValue === 1)
                         break;
                 }
-                console.log(arrValue);
+                // insert a new case to server
                 if (maxCase.weightedValue !== 1 && maxCase.case) {
                     const result = yield this.caseDao.insertNewCase(new Case_1.Case("", maxCase.case.getCaseNameResult(), new DirectionOfPalmsAndFinger_1.DirectionOfPalmsAndFinger(directionOfPalmAndFinger, "", constants_1.DEL_FLAG.VALID), new FingerOpening_1.FingerOpening(fingerOpening, "", constants_1.DEL_FLAG.VALID), new FingerShape_1.FingerShape(fingerShape, "", constants_1.DEL_FLAG.VALID), new HandMovement_1.HandMovement(handMovement, "", constants_1.DEL_FLAG.VALID), new HandShape_1.HandShape(handShape, "", constants_1.DEL_FLAG.VALID), constants_1.DEL_FLAG.VALID));
                     const newCase = yield this.caseDao.getCaseById(result.insertId);

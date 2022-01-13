@@ -20,6 +20,7 @@ const expertiseDataRouter_1 = require("./Routers/expertiseDataRouter");
 const handDetectRouter_1 = require("./Routers/handDetectRouter");
 const HttpError_1 = require("./Models/HttpError");
 const caseRouter_1 = require("./Routers/caseRouter");
+const DBConnector_1 = require("./DBConnector");
 const app = (0, express_1.default)();
 // "http://localhost:3000",
 // {
@@ -45,6 +46,8 @@ app.use((err, req, res, next) => {
     }
 });
 app.listen(process.env.PORT || 3001, () => __awaiter(void 0, void 0, void 0, function* () {
+    const connection = new DBConnector_1.DBConnector();
+    yield connection.handleConnect();
     console.log(`Server is listening on port ${process.env.PORT || 3001}`);
     // const dao: DirectionOfPalmsAndFingerDao = new DirectionOfPalmsAndFingerDao();
     // const dao: CaseDao = new CaseDao();
